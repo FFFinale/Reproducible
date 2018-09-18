@@ -1,8 +1,8 @@
-#Reproducible Research Project
+# Reproducible Research Project
 
 knitr::opts_chunk$set(echo = TRUE)
 
-##Code for reading in the dataset and/or processing the data
+## Code for reading in the dataset and/or processing the data
 ```{R}
 temp <- tempfile()
 download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip", destfile = temp )
@@ -11,30 +11,30 @@ activity<-read.csv("activity.csv")
 head(activity)
 ```
 
-##Histogram of the total number of steps taken each day
+## Histogram of the total number of steps taken each day
 ```{R}
 stepsum<-tapply(activity$steps,activity$date,sum)
 hist(stepsum)
 ```
 
-##Mean and median number of steps taken each day
+## Mean and median number of steps taken each day
 ```{R}
 mean(stepsum,na.rm = TRUE)
 median(stepsum,na.rm = TRUE)
 ```
 
-##Time series plot of the average number of steps taken
+## Time series plot of the average number of steps taken
 ```{R}
 stepave<-aggregate(steps~interval,data = activity,FUN = mean,na.rm=TRUE)
 plot(stepave$interval,stepave$steps)
 ```
 
-##The 5-minute interval that, on average, contains the maximum number of steps
+## The 5-minute interval that, on average, contains the maximum number of steps
 ```{R}
 stepave$interval[which.max(stepave$steps)]
 ```
 
-##Code to describe and show a strategy for imputing missing data
+## Code to describe and show a strategy for imputing missing data
 ```{R}
 cleardate<-activity
 addmiss<-function(mystep,myinterval){
@@ -48,7 +48,7 @@ cleardate$steps<-mapply(addmiss,cleardate$steps,cleardate$interval)
 summary(cleardate)
 ```
 
-##Histogram of the total number of steps taken each day after missing values are imputed
+## Histogram of the total number of steps taken each day after missing values are imputed
 ```{R}
 cleardate<-activity
 addmiss<-function(mystep,myinterval){
@@ -63,7 +63,7 @@ summary(cleardate)
 hist(tapply(cleardate$steps,cleardate$date,sum))
 ```
 
-##Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+## Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 ```{R}
 cleardate$date<-as.Date(cleardate$date)
 library(ggplot2)
